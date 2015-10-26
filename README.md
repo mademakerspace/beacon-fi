@@ -1,5 +1,5 @@
 # beacon-fi
-Software for a device that blinks with open wifi networks
+Software that runs on an ESP8266 (with nodeMCU firmware) which blinks in the presence of open WiFi networks
 
 # Contribute
 
@@ -20,5 +20,7 @@ MacOSx :
 $ brew install lua
 ```
 
-This project is based off the project by Stevica Kuharski: https://medium.com/@kstevica/how-to-build-an-open-wifi-finder-using-esp8266-and-two-coin-batteries-9c31eb6f9859
+This project is based off a project by @kstevica: https://medium.com/@kstevica/how-to-build-an-open-wifi-finder-using-esp8266-and-two-coin-batteries-9c31eb6f9859
+Another (more advanced) open WiFi detector which is in the same vein:
+http://benlo.com/esp8266/esp8266Projects.html#hotspotfinder
 
