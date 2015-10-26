@@ -48,13 +48,13 @@ function listap(t)
     end
   end
   if (foundFree) then  
-    print('WiFi network detected!') 
-    print(_DELAY_BLINK)
+    --print('WiFi network detected!') 
+    --print(_DELAY_BLINK)
     tmr.stop(_TIMER_BLINK)
     --gpio.write(_PIN_LED, gpio.HIGH)
     tmr.alarm( _TIMER_BLINK, _SIGNAL_STRENGTH, 1, blinker )
   else
-    print(':-( network not detected') 
+    --print(':-( network not detected') -- this is how you print to serial connection ie TX
   end
 end
 
