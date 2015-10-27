@@ -26,9 +26,13 @@ Another (more advanced) open WiFi detector which is in the same vein:
 http://benlo.com/esp8266/esp8266Projects.html#hotspotfinder
 
 
-# Lua pointers
+# Lua tips
+Lua is a light-weight high-level programming language designed for embedded environments. You can find a quick introduction about general Lua syntax here: http://esp8266.co.uk/tutorials/lua-basics/
+
 One important feature of Lua is its Timer API:   
-You can use up to 7 timers (index=0-6) which can execute a function once after a timeout of xxx ms (0), or repeating the function with an interval of xxx ms (1).
+You can use up to 7 timers (index=0-6) which can each execute a function
+a) once after a timeout of xxx ms (0)
+b)repeating the function with an interval of xxx ms (1)
 
 tmr.alarm(index, ms, type, callback) 
 tmr.alarm([0-6], [0-100000], (0|1), function_to_execute)
