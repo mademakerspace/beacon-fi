@@ -1,0 +1,81 @@
+###pseudocode for beacon-fi###
+------------------------------------------
+###init.lua###
+<code for init.lua, the first thing that runs on ESP on boot>
+
+blink blue LED (TX)
+wait 1 sec    
+
+blink blue LED (TX)
+wait 1 sec
+
+blink blue LED (TX)
+wait 1 sec
+
+compile main_loop.lua
+run main_loop.lua
+
+
+
+------------------------------------------
+###main_loop.lua###
+<code for main_loop.lua, a script which searches for open WiFi networks and blinks an LED if there are networks>
+
+#define some variables
+hide_and_seek_mode = false
+hide-and-seek-AP-SSIDs= ['ESP1','ESP2','ESP3',etc.]
+found_open_wifi = false
+signal_strength = low number
+previous_signal_strength = another low number
+
+#a function that scans for WiFi networks
+function look_around_for_open_WiFi():
+	list_of_APs=list of all visible APs   #this generates a listoflists with a built-in function wifi.sta.getap(list_of_APs); each AP has SSID, RSSI, channel, encryption type, MAC address, etc.
+	for AP in list_of_APs:
+
+			if hide_and_seek_mode = true:     #once hide and seek mode is activated...
+				if AP[ssid] is in hide-and-seek-AP-SSIDs:    #looks only for 'hide-and-seek' SSIDs
+					if AP[rssi] < signal_strength:  #if signal is stronger than previous 'hide-and-seek' APs
+						signal_strength==AP[rssi]  #sets signal_strength to dB value (negative)
+				
+			elif AP[ssid] is in hide-and-seek-AP-SSIDs :    #turns ESP into 'hide-and-seek' mode if special APs are found
+				hide_and_seek_mode = true 
+				signal_strength==AP[rssi]
+
+			elif AP[encryption] is open:
+				found_free_wifi = true
+				if AP[rssi] < signal_strength:  #if signal is stronger than previous open APs
+						signal_strength==AP[rssi]  #sets signal_strength to dB value (negative)
+		else:
+			found_open_wifi = false   #if no open networks found, sets found_open_wifi to false
+				
+
+# a function which blinks a LED when a suitable AP is found, varying the frequency according to signal strength	
+function blink_led(signal_strength, previous_signal_strength):
+	if found_open_wifi or hide_and_seek_mode = true:
+		smoothed_strength = signal_strength + previous_signal_strength / 2  
+		blink external LED (GPIO2)
+		wait (smoothed_strength*smoothed_strength) / 5 seconds #transforms -dBs to milliseconds, range 100-2000; waits Xms between blinks, depending on signal strength
+		previous_signal_strength = signal_strength
+	else:
+		blink external LED (GPIO2)
+		wait 0.5 seconds  # shows that it's working, but not found anything yet
+		blink external LED (GPIO2)
+		wait 5 seconds
+
+
+
+# a function which blinks the blue LED if in hide_and_seek_mode
+function blink_blue_led():
+	if hide_and_seek_mode 
+		print "something" #this will make the blue LED blink
+	else
+		#do nothing
+	wait 10 s
+	blink_blue_led()
+
+
+# call the main function
+look_around_for_open_WiFi()
+blink_led()
+blink_blue_led()
