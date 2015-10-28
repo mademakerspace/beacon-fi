@@ -27,6 +27,8 @@ hide-and-seek-AP-SSIDs= ['ESP1','ESP2','ESP3',etc.]
 found_open_wifi = false
 signal_strength = low number
 previous_signal_strength = another low number
+min_strength = -75 #the minimum strength a signal must have to trigger fast blinking
+default_sleep_interval = 10000 ;
 
 #a function that scans for WiFi networks
 function look_around_for_open_WiFi():
@@ -51,18 +53,18 @@ function look_around_for_open_WiFi():
 				
 
 # a function which blinks a LED when a suitable AP is found, varying the frequency according to signal strength	
-function blink_led(signal_strength, previous_signal_strength):
-	if found_open_wifi or hide_and_seek_mode = true:
+function blink_external_led():
+	impulse(); 
+	sleep_time = default_sleep_interval; 
+	if signal_strength > min_strength
 		smoothed_strength = signal_strength + previous_signal_strength / 2  
 		blink external LED (GPIO2)
 		wait (smoothed_strength*smoothed_strength) / 5 seconds #transforms -dBs to milliseconds, range 100-2000; waits Xms between blinks, depending on signal strength
 		previous_signal_strength = signal_strength
-	else:
-		blink external LED (GPIO2)
-		wait 0.5 seconds  # shows that it's working, but not found anything yet
-		blink external LED (GPIO2)
-		wait 5 seconds
+		sleep_time = ??
 
+	sleep (something)
+	blink_external_led()
 
 
 # a function which blinks the blue LED if in hide_and_seek_mode
@@ -77,5 +79,5 @@ function blink_blue_led():
 
 # call the main function
 look_around_for_open_WiFi()
-blink_led()
+blink_external_led()
 blink_blue_led()

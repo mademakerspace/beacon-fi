@@ -25,4 +25,10 @@ function ledOFF ()
     end
 
 
-ledON ()                                      
+function impulse()
+		ledON ()    
+	end
+
+
+impulse()
+                                  
