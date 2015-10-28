@@ -47,6 +47,8 @@ tmr.alarm([0-6], [0-100000], (0|1), function_to_execute)
 
 http://esp8266.co.uk/tutorials/introduction-to-the-timer-api/ 
 
+On MacOsX use ` $ ls /dev/tty.* ` to find the serial port 
+Debugging tool for serial ports : http://freeware.the-meiers.org/
 ## Lua tools
 
 * [LuaLoader](https://github.com/GeoNomad/LuaLoader/) (Win only ; GUI) [repo](https://github.com/4refr0nt/ESPlorer)
@@ -54,4 +56,7 @@ http://esp8266.co.uk/tutorials/introduction-to-the-timer-api/
 * [luatool](https://github.com/4refr0nt/luatool) (Win/Linux/Mac ; CLI)
 * [esptool](https://github.com/tommie/esptool) (Win/Linux/Mac ; GUI) 
 
+# ESP8266
+
+[Documentation](http://www.esp8266.com/wiki/doku.php?id=start)
 
