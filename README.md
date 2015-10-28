@@ -16,16 +16,10 @@ MacOSx :
 $ brew install lua
 ```
 
-Then you will likely want to install a loader to upload your Lua scripts to the ESP8266 through a USB-to-serial connection.
+Then you will likely want to install a loader to upload your Lua scripts to the ESP8266 through a USB-to-serial connection. (see Talking to your ESP8266)
 
 *WARNING: The ESP8266 operates at 3.3v and will not be happy if you use 5v (Arduino and other FTDI boards often operate at 5v)*
 
-You can download one of these tools to help you interact with your ESP8266 (see output, send commands line by line, upload files, format, flash firmware, etc.)
-LuaLoader (Only for Windows): http://benlo.com/esp8266/index.html#LuaLoader
-
-ESPlorer (Windows, Linux, Solaris, Mac OSx): http://esp8266.ru/esplorer/
-
-Or if you prefer something more lightweight (without a GUI), check out Luatool: https://github.com/4refr0nt/luatool
 
 # Introduction
 This project was inspired by a project by @kstevica: https://medium.com/@kstevica/how-to-build-an-open-wifi-finder-using-esp8266-and-two-coin-batteries-9c31eb6f9859
@@ -49,7 +43,8 @@ http://esp8266.co.uk/tutorials/introduction-to-the-timer-api/
 
 On MacOsX use ` $ ls /dev/tty.* ` to find the serial port 
 Debugging tool for serial ports : http://freeware.the-meiers.org/
-## Lua tools
+## Talking to your ESP8266
+You can download one of these tools to help you talk with your ESP8266 e.g. to read output, send commands line by line, upload files, format, flash firmware, etc.)
 
 * [LuaLoader](https://github.com/GeoNomad/LuaLoader/) (Win only ; GUI) [repo](https://github.com/4refr0nt/ESPlorer)
 * [ESPlorer](http://esp8266.ru/esplorer/) (Win/Linux/Mac ; GUI  )
