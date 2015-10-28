@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/MADE-barcelona/beacon-fi.png?label=ready&title=Ready)](https://waffle.io/MADE-barcelona/beacon-fi)
 # beacon-fi
 Software that runs on an ESP8266 (with nodeMCU firmware) which blinks in the presence of open WiFi networks
 
