@@ -47,3 +47,12 @@ tmr.alarm([0-6], [0-100000], (0|1), function_to_execute)
 
 http://esp8266.co.uk/tutorials/introduction-to-the-timer-api/ 
 
+## Lua tools
+
+
+* [LuaLoader](https://github.com/GeoNomad/LuaLoader/) (Win only ; GUI)
+* [ESPlorer](http://esp8266.ru/esplorer/) (Win/Linux/Mac ; GUI  )
+* [luatool](https://github.com/4refr0nt/luatool) (Win/Linux/Mac ; CLI)
+* [esptool](https://github.com/tommie/esptool) (Win/Linux/Mac ; GUI)
+
+
