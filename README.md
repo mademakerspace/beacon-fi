@@ -49,10 +49,9 @@ http://esp8266.co.uk/tutorials/introduction-to-the-timer-api/
 
 ## Lua tools
 
-
-* [LuaLoader](https://github.com/GeoNomad/LuaLoader/) (Win only ; GUI)
+* [LuaLoader](https://github.com/GeoNomad/LuaLoader/) (Win only ; GUI) [repo](https://github.com/4refr0nt/ESPlorer)
 * [ESPlorer](http://esp8266.ru/esplorer/) (Win/Linux/Mac ; GUI  )
 * [luatool](https://github.com/4refr0nt/luatool) (Win/Linux/Mac ; CLI)
-* [esptool](https://github.com/tommie/esptool) (Win/Linux/Mac ; GUI)
+* [esptool](https://github.com/tommie/esptool) (Win/Linux/Mac ; GUI) 
 
 
