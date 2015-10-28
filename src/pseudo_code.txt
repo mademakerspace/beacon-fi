@@ -29,42 +29,58 @@ signal_strength = low number
 previous_signal_strength = another low number
 min_strength = -75 #the minimum strength a signal must have to trigger fast blinking
 default_sleep_interval = 10000 ;
+is_first_time = true;
+
 
 #a function that scans for WiFi networks
 function look_around_for_open_WiFi():
 	list_of_APs=list of all visible APs   #this generates a listoflists with a built-in function wifi.sta.getap(list_of_APs); each AP has SSID, RSSI, channel, encryption type, MAC address, etc.
-	for AP in list_of_APs:
 
+	temp_max_strength = -100 #this variable keeps the highest AP strength among all APs
+	previous_signal_strength = signal_strength
+	for AP in list_of_APs:
 			if hide_and_seek_mode = true:     #once hide and seek mode is activated...
 				if AP[ssid] is in hide-and-seek-AP-SSIDs:    #looks only for 'hide-and-seek' SSIDs
-					if AP[rssi] < signal_strength:  #if signal is stronger than previous 'hide-and-seek' APs
-						signal_strength==AP[rssi]  #sets signal_strength to dB value (negative)
+					if AP[rssi] < temp_max_strength:  #if signal is stronger than previous 'hide-and-seek' APs
+					temp_max_strength==AP[rssi]  #sets temp_max_strength to dB value (negative)
 				
 			elif AP[ssid] is in hide-and-seek-AP-SSIDs :    #turns ESP into 'hide-and-seek' mode if special APs are found
 				hide_and_seek_mode = true 
-				signal_strength==AP[rssi]
+				temp_max_strength==AP[rssi]
 
 			elif AP[encryption] is open:
 				found_free_wifi = true
-				if AP[rssi] < signal_strength:  #if signal is stronger than previous open APs
-						signal_strength==AP[rssi]  #sets signal_strength to dB value (negative)
+				if AP[rssi] < temp_max_strength:  #if signal is stronger than previous open APs
+						temp_max_strength==AP[rssi]  #sets temp_max_strength to dB value (negative)
 		else:
 			found_open_wifi = false   #if no open networks found, sets found_open_wifi to false
-				
+		signal_strength = temp_max_strength	
+
+
+
+
+#smoothing function
+function smooth(previous_signal_strength,signal_strength)
+	return (signal_strength + previous_signal_strength) / 2  
+
+#function that taken the strength outputs the sleep_time
+function transform(strength)
+	return (strength*strength) / 5 seconds #transforms -dBs to milliseconds,
+
 
 # a function which blinks a LED when a suitable AP is found, varying the frequency according to signal strength	
 function blink_external_led():
 	impulse(); 
 	sleep_time = default_sleep_interval; 
 	if signal_strength > min_strength
-		smoothed_strength = signal_strength + previous_signal_strength / 2  
-		blink external LED (GPIO2)
-		wait (smoothed_strength*smoothed_strength) / 5 seconds #transforms -dBs to milliseconds, range 100-2000; waits Xms between blinks, depending on signal strength
-		previous_signal_strength = signal_strength
-		sleep_time = ??
-
+		if is_first_time
+			sleep_time = transform(signal_strength)
+		else
+			smoothed_strength = smooth (previous_signal_strength,signal_strength) 
+			sleep_time = transform(smoothed_strength)
 	sleep (something)
 	blink_external_led()
+
 
 
 # a function which blinks the blue LED if in hide_and_seek_mode
