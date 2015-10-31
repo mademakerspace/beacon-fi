@@ -19,7 +19,7 @@ _TIMER_INDEX_EXT_LED_OFF = 6
 _IMPULSE_DURATION = 40
 _BLUE_LED_INTERVAL = 10000
 
-_DEFAULT_BLINKING_INTERVAL_EXT = 6000
+_DEFAULT_BLINKING_INTERVAL_EXT = 5000
 
 _TARGET_SSID = 'ESP_F38F24'
 
@@ -51,12 +51,12 @@ function ledOFF()
   if(_SIGNAL_STRENGTH_TARGET>_SIGNAL_CUTOFF_STRENGTH) then
     nextDelay = computeInterval(_SIGNAL_STRENGTH_TARGET)
   else
+    print("No targets in range")
     nextDelay = _DEFAULT_BLINKING_INTERVAL_EXT
   end
 
-  tmr.alarm(_TIMER_INDEX_EXT_LED_OFF, nextDelay, 0, ledON) 
   print("nextDelay:" .. nextDelay)
-
+  tmr.alarm(_TIMER_INDEX_EXT_LED_OFF, nextDelay, 0, ledON) 
 
 end
 
