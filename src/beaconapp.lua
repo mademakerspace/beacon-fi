@@ -25,7 +25,7 @@ _TARGET_SSID_STRING = 'ESP_'
 _CACHE_MODE = false 
 
 function initImpulse()
-  print("Starting the impulse")
+  
 	ledON()
 end
 
@@ -63,12 +63,12 @@ function ledOFF()
      if(_SIGNAL_STRENGTH_OPEN>_DEFAULT_INITIAL_STRENGTH) then 
       nextDelay = computeInterval(_SIGNAL_STRENGTH_OPEN)
      else
-      print("No openwifi in range")
+      
       nextDelay = _DEFAULT_BLINKING_INTERVAL_EXT
     end
   end
 
-  print("cacheMode:".. tostring(_CACHE_MODE) .." ,nextDelay:" .. nextDelay)
+  
   tmr.alarm(_TIMER_INDEX_EXT_LED_OFF, nextDelay, 0, ledON) 
 end
 
@@ -116,10 +116,10 @@ function processAPlist(t)
   if (foundSomeTarget) then 
     _CACHE_MODE = true
 		_SIGNAL_STRENGTH_TARGET =  targetStrength  
-    print("SSID:" .. targetSSID ..", targetStrength:" .. targetStrength)
+    
   elseif (foundSomeOpenNetwork) then            
     _SIGNAL_STRENGTH_OPEN =  openStrength
-    print("SSID:" .. openWifiSSID ..", openStrength:" .. openStrength)
+    
   else 
     _SIGNAL_STRENGTH_TARGET = _DEFAULT_INITIAL_STRENGTH
   end
@@ -140,12 +140,10 @@ wifi.setmode(wifi.STATION)
 gpio.mode(_EXT_LED_PIN, gpio.OUTPUT) 
 gpio.write(_EXT_LED_PIN, gpio.LOW) 
 
-print('Perform initial WiFi signal scan') 
-wifi.sta.getap(processAPlist)
-print('Scheduling WiFi signal scanner every ' .. _TIMER_INDEX_SCAN ..' ms') 
+
 tmr.alarm(_TIMER_INDEX_SCAN, _DELAY_STARTUP, 1, scanWifi)
-print('Initiating the external LED blinking') 
+
 initImpulse()
-print('Scheduling blue LED blinking every ' .. _BLUE_LED_INTERVAL ..' ms') 
+
 tmr.alarm(_TIMER_INDEX_BLUE_LED, _BLUE_LED_INTERVAL, 1, blueLED) 
 
