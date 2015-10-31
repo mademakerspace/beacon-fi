@@ -3,7 +3,7 @@ _DELAY_BLINK = 250
 _TIMER_BLINK = 0
 _TIMER_LIST = 1
 _PIN_LED = 4
-
+_TIME_BWTN_BLINKS_EXT=1200
 
 wifi.setmode(wifi.STATION)
 
@@ -11,8 +11,16 @@ wifi.setmode(wifi.STATION)
 gpio.mode(_PIN_LED, gpio.OUTPUT)
 gpio.write(_PIN_LED, gpio.LOW)
 
+function ledON()
+      gpio.write(_PIN_LED, gpio.HIGH)
+      tmr.alarm(5, 20, 0, ledOFF) 
+end
 
 
+function ledOFF()
+  gpio.write(_PIN_LED, gpio.LOW)
+  tmr.alarm(6, _TIME_BWTN_BLINKS_EXT, 0, ledON) 
+end
 
 
 function listap(t)
@@ -26,10 +34,8 @@ function listap(t)
       foundFree = true
       print('found an open network!')
       print('strength is')
-      print(rssi)
-      print(math.floor((temp_strength * temp_strength) / 5))
       print(k)
-   
+      print(rssi)
     end
   end
   if (foundFree) then    
@@ -45,5 +51,5 @@ function repeatList()
 end
 tmr.alarm(_TIMER_LIST, _DELAY_LIST, 1, repeatList)
 
-
+ledON()
 wifi.sta.getap(listap)
