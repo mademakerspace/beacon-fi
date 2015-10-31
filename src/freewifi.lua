@@ -1,24 +1,31 @@
 _DELAY_LIST = 3000
 _DELAY_BLINK = 250
-_TIMER_SCAN = 1
-_PIN_LED = 4
-_TIME_BWTN_BLINKS_EXT=1200
+_EXT_LED_PIN = 4
+_TIME_BWTN_BLINKS_EXT = 1200
+_TIMER_INDEX_SCAN = 1
+
+_TIMER_INDEX_BLUE_LED = 4
+_TIMER_INDEX_EXT_LED_ON = 5
+_TIMER_INDEX_EXT_LED_OFF = 6
+
+_IMPULSE_DURATION = 40
+_BLUE_LED_INTERVAL = 10000
 
 wifi.setmode(wifi.STATION)
 
 
-gpio.mode(_PIN_LED, gpio.OUTPUT)
-gpio.write(_PIN_LED, gpio.LOW)
+gpio.mode(_EXT_LED_PIN, gpio.OUTPUT)
+gpio.write(_EXT_LED_PIN, gpio.LOW)
 
 function ledON()
-      gpio.write(_PIN_LED, gpio.HIGH)
-      tmr.alarm(5, 20, 0, ledOFF) 
+      gpio.write(_EXT_LED_PIN, gpio.HIGH)
+      tmr.alarm(_TIMER_INDEX_EXT_LED_ON, _IMPULSE_DURATION, 0, ledOFF) 
 end
 
 
 function ledOFF()
-  gpio.write(_PIN_LED, gpio.LOW)
-  tmr.alarm(6, _TIME_BWTN_BLINKS_EXT, 0, ledON) 
+  gpio.write(_EXT_LED_PIN, gpio.LOW)
+  tmr.alarm(_TIMER_INDEX_EXT_LED_OFF, _TIME_BWTN_BLINKS_EXT, 0, ledON) 
 end
 
 function blueLED()
@@ -44,10 +51,10 @@ end
 
 
 function repeatList()
-
   wifi.sta.getap(listap)
 end
-tmr.alarm(_TIMER_SCAN, _DELAY_LIST, 1, repeatList)
+
+tmr.alarm(_TIMER_INDEX_SCAN, _DELAY_LIST, 1, repeatList)
 ledON()
-tmr.alarm(4, 10000, 1, blueLED) 
+tmr.alarm(_TIMER_INDEX_BLUE_LED, _BLUE_LED_INTERVAL, 1, blueLED) 
 wifi.sta.getap(listap)
