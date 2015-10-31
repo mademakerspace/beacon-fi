@@ -23,7 +23,7 @@ run main_loop.lua
 
 #define some variables
 hide_and_seek_mode = false
-hide-and-seek-AP-SSIDs= ['ESP1','ESP2','ESP3',etc.]
+hide-and-seek-AP-SSIDs= ['ESP123','ESP234','ESP345',etc.] for example
 found_open_wifi = false
 signal_strength = low number
 previous_signal_strength = another low number
@@ -33,8 +33,19 @@ is_first_time = true;
 
 
 #a function that scans for WiFi networks
+<<<<<<< HEAD
 function look_around_for_open_WiFi():
 	list_of_APs=list of all visible APs   #this generates a listoflists with a built-in function wifi.sta.getap(list_of_APs); each AP has SSID, RSSI, channel, encryption type, MAC address, etc.
+=======
+function scan_WiFi():
+	generate a list of APs with a built-in function wifi.sta.getap(list_of_APs); each AP has SSID, RSSI, channel, encryption type, MAC address, etc.
+	call parse_AP_list(list_of_APs) function, sending fresh list of APs
+end
+
+#a function that parses a list of APs and returns the 'best' one
+function parse_list_of_APs():
+	for AP in list_of_APs:
+>>>>>>> origin/master
 
 	temp_max_strength = -100 #this variable keeps the highest AP strength among all APs
 	previous_signal_strength = signal_strength
