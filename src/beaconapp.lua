@@ -20,8 +20,8 @@ _TIMER_INDEX_BLUE_LED = 4
 _TIMER_INDEX_EXT_LED_ON = 5
 _TIMER_INDEX_EXT_LED_OFF = 6
 
-_TARGET_SSID = 'ESP_F38F24' --SSID of the targer
 
+_TARGET_SSID_STRING = 'ESP_' --SSID prefix to identify the cache-mode Access Points
 
 
 --This function starts the impulse
@@ -41,10 +41,16 @@ function ledON()
       tmr.alarm(_TIMER_INDEX_EXT_LED_ON, _IMPULSE_DURATION, 0, ledOFF) 
 end
 
+function containz(what,where)
+  if string.find(where,what) then
+    return true
+  else 
+    return false
+  end
+end
 
 function ledOFF()
   gpio.write(_EXT_LED_PIN, gpio.LOW)
-
 
   if(_SIGNAL_STRENGTH_TARGET>_SIGNAL_CUTOFF_STRENGTH) then
     nextDelay = computeInterval(_SIGNAL_STRENGTH_TARGET)
@@ -69,20 +75,21 @@ end
 
 
 function listap(t)
-  local foundTarget = false
+  local foundSomeTarget = false
   local targetStrength = _DEFAULT_INITIAL_STRENGTH
   for k,v in pairs(t) do
 	authmode, rssi, bssid, channel = string.match(v, "(%d),(-?%d+),(%x%x:%x%x:%x%x:%x%x:%x%x:%x%x),(%d+)")
-    temp_strength = tonumber(rssi)
-    if (k==_TARGET_SSID) then
-      foundTarget = true
-      targetStrength = temp_strength
+    if (containz(_TARGET_SSID_STRING,k)) then
+      if (targetStrength <  tonumber(rssi)) then
+        targetStrength = tonumber(rssi)
+        foundSomeTarget = true
+      end
     end
-  end
-  if (foundTarget) then 
+  end --End of foor loop
+
+  if (foundSomeTarget) then 
 		_SIGNAL_STRENGTH_TARGET =  targetStrength
     print("targetStrength:" .. targetStrength)
-  
   else
     _SIGNAL_STRENGTH_TARGET = _DEFAULT_INITIAL_STRENGTH
   end
@@ -95,7 +102,6 @@ function repeatList()
 end
 
 -- Main Procedure 
-
 
 print("Startup sequence initiated")
 
@@ -111,3 +117,4 @@ print('Initiating the external LED blinking')
 initImpulse()
 print('Scheduling blue LED blinking every ' .. _BLUE_LED_INTERVAL ..' ms') 
 tmr.alarm(_TIMER_INDEX_BLUE_LED, _BLUE_LED_INTERVAL, 1, blueLED) 
+
