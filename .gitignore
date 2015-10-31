@@ -1,6 +1,5 @@
 
 *.Log
-
+*.log
 tools/ESPlorer/ESPlorer.Log
-
 tools/ESPlorer/ESPlorer.Log
