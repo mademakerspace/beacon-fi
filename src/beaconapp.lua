@@ -1,34 +1,32 @@
-_DELAY_LIST = 3000
-_DELAY_BLINK = 250
+_DELAY_STARTUP = 3000 --Wait at startup 
 
-_EXT_LED_PIN = 4
-_TIME_BWTN_BLINKS_EXT = 1200
+_EXT_LED_PIN = 4 --The pin where the external LED is connected
+_TIME_BWTN_BLINKS_EXT = 1200 --[ms] 
 
-_DEFAULT_INITIAL_STRENGTH = -100
+_DEFAULT_INITIAL_STRENGTH = -100 --[dB] 
+_SIGNAL_STRENGTH_OPEN = _DEFAULT_INITIAL_STRENGTH --[dB] 
+_SIGNAL_STRENGTH_TARGET = _DEFAULT_INITIAL_STRENGTH --[dB] 
 
-_SIGNAL_STRENGTH_OPEN = _DEFAULT_INITIAL_STRENGTH
-_SIGNAL_STRENGTH_TARGET = _DEFAULT_INITIAL_STRENGTH
+_SIGNAL_CUTOFF_STRENGTH = -65 --[dB]Minimum signal strength that cause blinking to go faster
 
-_SIGNAL_CUTOFF_STRENGTH = -65
+_IMPULSE_DURATION = 40  --[ms] Duration of an impulse of light
+_BLUE_LED_INTERVAL = 6000  --[ms] Interval of blue LED blinking 
 
+_DEFAULT_BLINKING_INTERVAL_EXT = 5000  --[ms] Default interval of external LED blinking when seeking
+
+--Define the index of timers
 _TIMER_INDEX_SCAN = 1
 _TIMER_INDEX_BLUE_LED = 4
 _TIMER_INDEX_EXT_LED_ON = 5
 _TIMER_INDEX_EXT_LED_OFF = 6
 
-_IMPULSE_DURATION = 40
-_BLUE_LED_INTERVAL = 10000
+_TARGET_SSID = 'ESP_F38F24' --SSID of the targer
 
-_DEFAULT_BLINKING_INTERVAL_EXT = 5000
 
-_TARGET_SSID = 'ESP_F38F24'
 
-wifi.setmode(wifi.STATION)
-
-gpio.mode(_EXT_LED_PIN, gpio.OUTPUT)
-gpio.write(_EXT_LED_PIN, gpio.LOW)
-
+--This function starts the impulse
 function initImpulse()
+  print("Starting the impulse")
 	ledON()
 end
 
@@ -37,7 +35,7 @@ function computeInterval(db)
 	return interval
 end
 
-
+-- START Blinking main loop 
 function ledON()
       gpio.write(_EXT_LED_PIN, gpio.HIGH)
       tmr.alarm(_TIMER_INDEX_EXT_LED_ON, _IMPULSE_DURATION, 0, ledOFF) 
@@ -59,8 +57,12 @@ function ledOFF()
   tmr.alarm(_TIMER_INDEX_EXT_LED_OFF, nextDelay, 0, ledON) 
 
 end
+-- END Blinking main loop 
 
 
+
+
+--Simple trick to make the blue LED blink
 function blueLED()
 	print('.') 
 end                                      
@@ -92,7 +94,20 @@ function repeatList()
   wifi.sta.getap(listap)
 end
 
-tmr.alarm(_TIMER_INDEX_SCAN, _DELAY_LIST, 1, repeatList)
-initImpulse()
-tmr.alarm(_TIMER_INDEX_BLUE_LED, _BLUE_LED_INTERVAL, 1, blueLED) 
+-- Main Procedure 
+
+
+print("Startup sequence initiated")
+
+wifi.setmode(wifi.STATION) 
+gpio.mode(_EXT_LED_PIN, gpio.OUTPUT) --Initialise external LED
+gpio.write(_EXT_LED_PIN, gpio.LOW) --Turn off LED
+
+print('Perform initial WiFi signal scan') 
 wifi.sta.getap(listap)
+print('Scheduling WiFi signal scanner every ' .. _TIMER_INDEX_SCAN ..' ms') 
+tmr.alarm(_TIMER_INDEX_SCAN, _DELAY_STARTUP, 1, repeatList)
+print('Initiating the external LED blinking') 
+initImpulse()
+print('Scheduling blue LED blinking every ' .. _BLUE_LED_INTERVAL ..' ms') 
+tmr.alarm(_TIMER_INDEX_BLUE_LED, _BLUE_LED_INTERVAL, 1, blueLED) 

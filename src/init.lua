@@ -1,3 +1,2 @@
-node.compile("freewifi.lua") 
-
-dofile("freewifi.lc")
+node.compile("beaconapp.lua") 
+dofile("beaconapp.lua")
