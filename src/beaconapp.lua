@@ -30,7 +30,7 @@ function initImpulse()
 end
 
 function computeInterval(db)
-	interval = math.floor((db * db) /5)
+	interval = math.floor(((db * db) / 2) + 15 * db + 130)
 	return interval
 end
 
