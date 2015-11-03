@@ -5,13 +5,12 @@ _EXT_LED_PIN = 4
 _DEFAULT_INITIAL_STRENGTH = -100
 _SIGNAL_STRENGTH_OPEN = _DEFAULT_INITIAL_STRENGTH 
 _SIGNAL_STRENGTH_TARGET = _DEFAULT_INITIAL_STRENGTH  
-
-_SIGNAL_CUTOFF_STRENGTH = -65
+_SIGNAL_CUTOFF_STRENGTH = -70
 
 _IMPULSE_DURATION = 40  
-_BLUE_LED_INTERVAL = 6000  
+_BLUE_LED_INTERVAL = 8000  
 
-_DEFAULT_BLINKING_INTERVAL_EXT = 5000 
+_DEFAULT_BLINKING_INTERVAL_EXT = 5500 
 
 
 _TIMER_INDEX_SCAN = 1
@@ -30,7 +29,7 @@ function initImpulse()
 end
 
 function computeInterval(db)
-	interval = math.floor(((db * db) / 2) + 15 * db + 130)
+	interval = math.floor((db * db) + 25 * db + 190)
 	return interval
 end
 
@@ -56,7 +55,6 @@ function ledOFF()
     if(_SIGNAL_STRENGTH_TARGET>_SIGNAL_CUTOFF_STRENGTH) then
       nextDelay = computeInterval(_SIGNAL_STRENGTH_TARGET)
     else
-      print("No targets in range")
       nextDelay = _DEFAULT_BLINKING_INTERVAL_EXT
     end
   else 
